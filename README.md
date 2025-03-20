@@ -1,1 +1,1 @@
-A sample command-line application providing basic argument parsing with an entrypoint in `bin/`.
+A way to generate a dozen CoT PLI messages for Multicast testing of ATAK/TAK applications.
