@@ -60,7 +60,7 @@ void main(List<String> arguments) {
       g.launchCOTs();
     }
     else {
-      print('Arguments: Make 12 CoTs, Base Name:COTGEN Every 30 seconds');
+      print('Arguments: Make 12 CoTs, Base Name: COTGEN Every 30 seconds');
       final g = Generator(numPLIs: 12, baseName: 'COTGEN');
       g.launchCOTs();
     }    
