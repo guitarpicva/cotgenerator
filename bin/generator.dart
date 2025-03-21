@@ -83,13 +83,13 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
     evt.hae = randyHAE;
     evt.le = 9999999;
     evt.ce = 9999999;
-    if(seq % 2 == 1) {
+    if(seq.isOdd) {
         evt.lat = (36.95 - randyLat);
     }
     else {
         evt.lat = (36.95 + randyLat - 0.022);
     }
-    if(seq % 2 == 1) {
+    if(seq.isOdd) {
         evt.lon = (-77.67 - randy + 0.017);
     }
     else {

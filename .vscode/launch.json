@@ -11,7 +11,8 @@
             "program": "./bin/cotgenerator.dart",
             "args": [
                 "12",
-                "COTGEN"
+                "COTGEN",
+                "37"
             ]
         }
     ]
