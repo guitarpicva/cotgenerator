@@ -4,17 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "Dart",
-        //     "type": "dart",
-        //     "request": "launch",
-        //     "program": "./bin/cotgenerator.dart"
-        // },
         {
             "name": "cotgenerator",
             "request": "launch",
             "type": "dart",
-            "program": "./bin/cotgenerator.dart"
+            "program": "./bin/cotgenerator.dart",
+            "args": [
+                "12",
+                "COTGEN"
+            ]
         }
     ]
 }

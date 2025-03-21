@@ -14,13 +14,14 @@ import 'takproto/detail.pb.dart';
 class Generator{
 List<int> delim = [191,1,191];
 int _numPLIs = 12;
+String _baseName = 'COTGEN';
 String endpoint = "192.168.4.129:4242:tcp";
 final int maxPins = 13; // max number of PLI's to generate + 1 for loop
 Map<String, List<int> > cots = HashMap();
 List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", "Purple", "Cyan"];
     
-  Generator({int numPLIs = 12}) 
-  : _numPLIs = numPLIs
+  Generator({int numPLIs = 12, String baseName = 'COTGEN'}) 
+  : _numPLIs = numPLIs, _baseName = baseName
   {
     Timer.periodic(Duration(milliseconds: 30000), (timer) {launchCOTs();});    
   }
@@ -49,17 +50,13 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
         int groupIdx = j % 8; // 0 - 7
         //print("cots:$cots");
         final group = groups[groupIdx];
-        final name = "COT$j";
+        final name = "$_baseName$j";
         final tsdt = "${DateTime.now().toUtc().millisecondsSinceEpoch}";
         List<int> blob = makeCOT(name, tsdt, group);
         cots[name] = blob;
     }
   }
   
-  void on_Number_of_Pins_triggered(){
-
-  }
-
   void on_Send_Now_triggered(){
     launchCOTs();
   }
@@ -109,7 +106,7 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
     detail.setField(1, '<contact callsign="$uid" endpoint="$endpoint"/><uid Droid="$uid"/><__group name="$group" role="$role"/>');
     evt.setField(15, detail);
     t.setField(2, evt);
-     print("\n$t");
+    //  print("\n$t");
     
     // then serialize it
     // out = t.serialize(&pbser);

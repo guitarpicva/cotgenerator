@@ -9,18 +9,19 @@ ArgParser buildParser() {
       'help',
       abbr: 'h',
       negatable: false,
-      help: 'Print this usage information.',
+      help: 'First parameter = number of PLIs to generate (def. 12).\nSeond parameter is the base Name to use for the callsign (def. "COTGEN").\nThird parameter is the period in seconds for repeating new CoTs (def. 30s).',
     )
     ..addFlag(
-      'verbose',
-      abbr: 'v',
+      'debug',
+      abbr: 'd',
       negatable: false,
-      help: 'Show additional command output.',
+      help: 'Show program trace.',
     )
     ..addFlag(
       'version',
+      abbr: 'v',
       negatable: false,
-      help: 'Print the tool version.',
+      help: 'Print the version string.',
     );
 }
 
@@ -33,7 +34,7 @@ void main(List<String> arguments) {
   final ArgParser argParser = buildParser();
   try {
     final ArgResults results = argParser.parse(arguments);
-    bool verbose = false;
+    bool debug = false;
 
     // Process the parsed arguments.
     if (results.flag('help')) {
@@ -44,18 +45,25 @@ void main(List<String> arguments) {
       print('cotgenerator version: $version');
       return;
     }
-    if (results.flag('verbose')) {
-      verbose = true;
+    if (results.flag('debug')) {
+      debug = true;
     }
 
     // Act on the arguments provided.
     print('Positional arguments: ${results.rest}');
-    if (verbose) {
-      print('[VERBOSE] All arguments: ${results.arguments}');
+    if (debug) {
+      print('[DEBUG] All arguments: ${results.arguments}');
     }
-    
-    final g = Generator(numPLIs: 12);
-    g.launchCOTs();
+    if(results.arguments.length > 1) {
+      print('Arguments: Make ${results.arguments[0]} CoTs, Base Name: ${results.arguments[1]} Every ${results.arguments[2]} seconds');
+      final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: results.arguments[1]);
+      g.launchCOTs();
+    }
+    else {
+      print('Arguments: Make 12 CoTs, Base Name:COTGEN Every 30 seconds');
+      final g = Generator(numPLIs: 12, baseName: 'COTGEN');
+      g.launchCOTs();
+    }    
 
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
