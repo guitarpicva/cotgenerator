@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:ffi';
+// import 'dart:ffi';
 // import 'dart:ffi';
 import 'package:fixnum/fixnum.dart';
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 
 import 'takproto/takmessage.pb.dart';
 import 'takproto/cotevent.pb.dart';
@@ -40,11 +40,12 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
       //print("$key:${value.length}");
       // print("Delim:${delim + value}");
       writeDatagram(delim + value, "239.2.3.1", 6969);
+      sleep(Duration(milliseconds: 100));
     });
   }
     
   void loadCOTs() {
-    for (int j = 1; j< maxPins; ++j) {
+    for (int j = 1; j < (_numPLIs + 1); ++j) {
         int groupIdx = j % 8; // 0 - 7
         //print("cots:$cots");
         final group = groups[groupIdx];
