@@ -26,7 +26,7 @@ ArgParser buildParser() {
 }
 
 void printUsage(ArgParser argParser) {
-  print('Usage: dart cotgenerator.dart <flags> [arguments]');
+  print('Usage: ./cotgenerator <flags> [arguments]');
   print(argParser.usage);
 }
 
@@ -57,6 +57,11 @@ void main(List<String> arguments) {
     if(results.arguments.length > 1) {
       print('Arguments: Make ${results.arguments[0]} CoTs, Base Name: ${results.arguments[1]} Every ${results.arguments[2]} seconds');
       final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: results.arguments[1]);
+      g.launchCOTs();
+    }
+    else if(results.arguments.length == 1) {
+      print('Arguments: Make ${int.parse(results.arguments[0])} CoTs, Base Name: COTGEN Every 30 seconds');
+      final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: 'COTGEN');
       g.launchCOTs();
     }
     else {
