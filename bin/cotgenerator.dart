@@ -54,23 +54,29 @@ void main(List<String> arguments) {
     if (debug) {
       print('[DEBUG] All arguments: ${results.arguments}');
     }
-    if(results.arguments.length > 1) {
+    switch(results.arguments.length) {
+    case 3:
       print('Arguments: Make ${results.arguments[0]} CoTs, Base Name: ${results.arguments[1]} Every ${results.arguments[2]} seconds');
       final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: results.arguments[1]);
       g.launchCOTs();
-    }
-    else if(results.arguments.length == 1) {
+      break;
+    case 2:
+      print('Arguments: Make ${results.arguments[0]} CoTs, Base Name: ${results.arguments[1]} Every 30 seconds');
+      final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: results.arguments[1]);
+      g.launchCOTs();
+      break;
+    case 1:
       print('Arguments: Make ${int.parse(results.arguments[0])} CoTs, Base Name: COTGEN Every 30 seconds');
       final g = Generator(numPLIs: int.parse(results.arguments[0]), baseName: 'COTGEN');
       g.launchCOTs();
-    }
-    else {
+      break;
+    default:
       print('Arguments: Make 12 CoTs, Base Name: COTGEN Every 30 seconds');
       final g = Generator(numPLIs: 12, baseName: 'COTGEN');
       g.launchCOTs();
-    }    
-
-  } on FormatException catch (e) {
+    }
+  } 
+  on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
     print(e.message);
     print('');
