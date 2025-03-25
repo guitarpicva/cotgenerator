@@ -15,15 +15,16 @@ class Generator{
 List<int> delim = [191,1,191];
 int _numPLIs = 12;
 String _baseName = 'COTGEN';
+int _timeout = 30;
 String endpoint = "192.168.4.129:4242:tcp";
 final int maxPins = 13; // max number of PLI's to generate + 1 for loop
 Map<String, List<int> > cots = HashMap();
 List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", "Purple", "Cyan"];
     
-  Generator({int numPLIs = 12, String baseName = 'COTGEN'}) 
-  : _numPLIs = numPLIs, _baseName = baseName
+  Generator({int numPLIs = 12, String baseName = 'COTGEN', int timeout = 30}) 
+  : _numPLIs = numPLIs, _baseName = baseName, _timeout = timeout
   {
-    Timer.periodic(Duration(milliseconds: 30000), (timer) {launchCOTs();});    
+    Timer.periodic(Duration(milliseconds: _timeout * 1000), (timer) {launchCOTs();});    
   }
 
   /// When a datagram needs to be sent, either for UDP or Multicast, just
@@ -36,9 +37,10 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
   }
   
   void launchCOTs(){
+    final ts = "[${DateTime.now().toUtc().toIso8601String()}]";
+    stdout.write("$ts Launch CoTs\r");
     loadCOTs();
-    cots.forEach((String key, value) {
-      //print("$key:${value.length}");
+    cots.forEach((String key, value) {      
       // print("Delim:${delim + value}");
       writeDatagram(delim + value, "239.2.3.1", 6969);
       sleep(Duration(milliseconds: 100));
