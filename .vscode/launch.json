@@ -10,9 +10,13 @@
             "type": "dart",
             "program": "./bin/cotgenerator.dart",
             "args": [
-                "12",
+                "-x",
+                "1",
                 "COTGEN",
-                "37"
+                "10",
+                "36.95",
+                "-77.67",
+                "192.168.4.129:4242:tcp"
             ]
         }
     ]
