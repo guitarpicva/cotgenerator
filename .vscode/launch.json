@@ -10,8 +10,8 @@
             "type": "dart",
             "program": "./bin/cotgenerator.dart",
             "args": [
-                "-x",
-                "1",
+                "--xml",
+                "2",
                 "COTGEN",
                 "10",
                 "36.95",
