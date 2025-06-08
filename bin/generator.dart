@@ -50,7 +50,7 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
     loadCOTs();
     cots.forEach((String key, value) {                  
       if(_useXML) {
-        print("CoT:${String.fromCharCodes(xmlheader + value)}");
+        print("CoT:${String.fromCharCodes(value)}");
         writeDatagram(xmlheader + value, addr, port);
       }
       else {
@@ -152,8 +152,8 @@ access="Undefined">
         builder.element('takv', nest: (){
           builder.attribute('device', 'x');
           builder.attribute('platform', 'ATAK');
-          builder.attribute('os', 'x');
-          builder.attribute('version', 'x');
+          builder.attribute('os', 'Android');
+          builder.attribute('version', '30');
         });
         builder.element('contact', nest: (){
           builder.attribute('callsign', uid);       
