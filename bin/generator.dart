@@ -79,6 +79,21 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
         // cots[name] = blob;
     }
   }
+
+  String makeGtUid(int seq) {
+    // should be ANDROID- followed by 8 hex bytes (16 chars)
+    if(seq < 10) {
+      print('ANDROID-abcdefabcdef123$seq');
+      return 'ANDROID-abcdefabcdef123$seq';
+    }
+    else {
+      var out = 'ANDROID-abcdefabcdef123';
+      var sseq = '$seq';
+      out = out.substring(0, 16 - sseq.length);
+      print ('makeGtUid: $out$sseq');
+      return '$out$sseq';
+    }    
+  }
  
   String makeXmlTs(int ts, int plusMs) {
     var valms = ts + plusMs;
@@ -104,6 +119,7 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
     //String out = '<?xml version="1.0" encoding="utf-8" ?>';
     // append the rest of the tags here and
     // final String faketakv = '<takv ';
+    var uidstr = makeGtUid(seq);
     final int ms = int.parse(dateTime);
     var builder = XmlBuilder();
     final double randy = Random.secure().nextInt(9) * 0.003; // int 0 -- 9
@@ -129,7 +145,7 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
     builder.processing('xml', 'version="1.0"');
     builder.element('event', nest: () {
       builder.attribute('version', '2.0');
-      builder.attribute('uid', uid);
+      builder.attribute('uid', uidstr);
       builder.attribute('type', 'a-f-G-U-C');
       builder.attribute('time', makeXmlTs(ms, 0));
       builder.attribute('start', makeXmlTs(ms, 0));
@@ -163,7 +179,7 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
         });
         builder.element('__gotenna', nest: () {
           builder.attribute('messageForCallsign', uid);
-          builder.attribute('messageForUUID', uid);
+          builder.attribute('messageForUUID', uidstr);
         });
       }); // end <detail>
     });

@@ -11,9 +11,9 @@
             "program": "./bin/cotgenerator.dart",
             "args": [
                 "--xml",
-                "2",
+                "12",
                 "COTGEN",
-                "10",
+                "60",
                 "36.95",
                 "-77.67",
                 "239.2.3.1",
