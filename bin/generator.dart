@@ -19,15 +19,17 @@ double _lon = 0.0;
 String _baseName = 'COTGEN';
 int _timeout = 30;
 String _endpoint = "192.168.4.129:4242:tcp";
+String addr = '239.2.3.1';
+int port = 6969;
 // final int maxPins = 13; // max number of PLI's to generate + 1 for loop
 Map<String, List<int> > cots = HashMap();
 List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", "Purple", "Dark_Blue", "Blue", "Cyan", "Teal", "Green", "Dark_Green", "Brown"];
     
-  Generator({bool xml = false, int numPLIs = 12, String baseName = 'COTGEN', int timeout = 30, double lat = 36.95, double lon = -77.67, String endpoint = "192.168.4.129:4242:tcp"}) 
+  Generator({bool xml = false, int numPLIs = 12, String baseName = 'COTGEN', int timeout = 30, double lat = 36.95, double lon = -77.67, String endpoint = "192.168.4.129:4242:tcp", String addr = '239.2.3.1', int port = 6969}) 
   : _useXML = xml, _numPLIs = numPLIs, _baseName = baseName, _timeout = timeout, _lat = lat, _lon = lon, _endpoint = endpoint
   {
     //print('Use XML? $_useXML');
-    Timer.periodic(Duration(milliseconds: _timeout * 1000), (timer) {launchCOTs();});    
+    Timer.periodic(Duration(seconds: _timeout), (timer) {launchCOTs();});    
   }
 
   /// When a datagram needs to be sent, either for UDP or Multicast, just
@@ -35,22 +37,25 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
   void writeDatagram(List<int> data, String address, int port) {
     RawDatagramSocket.bind(InternetAddress.anyIPv4, 0).then((RawDatagramSocket s) {
       // print("UDP MC Send $address:$port");
+      s.multicastHops = 64;
+      s.multicastLoopback = true;      
       s.send(data, InternetAddress(address), port);
+      s.writeEventsEnabled = true;
     });
   }
   
-  void launchCOTs(){
+  void launchCOTs({String addr = '239.2.3.1', int port = 6969}){
     //final ts = "[${DateTime.now().toUtc().toIso8601String()}]";
     //stdout.write("$ts Launch CoTs\n");
     loadCOTs();
     cots.forEach((String key, value) {                  
       if(_useXML) {
         print("CoT:${String.fromCharCodes(xmlheader + value)}");
-        writeDatagram(xmlheader + value, "127.0.0.1", 19791);
+        writeDatagram(xmlheader + value, addr, port);
       }
       else {
         print("CoT:${String.fromCharCodes(delim + value)}");
-        writeDatagram(delim + value, "127.0.0.1", 19791);
+        writeDatagram(delim + value, addr, port);
       }
       sleep(Duration(milliseconds: 100));
     });

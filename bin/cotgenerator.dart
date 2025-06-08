@@ -66,8 +66,18 @@ void main(List<String> arguments) {
       print('[DEBUG] All arguments: ${results.arguments}');
     }
     
-    //switch(results.arguments.length) {
+    print('param count: ${results.rest.length}');
     switch(results.rest.length) {
+      case 8:
+      print('8 Arguments: Make ${results.rest[0]} CoTs, Base Name: ${results.rest[1]} Every ${results.rest[2]} seconds');
+      final g = Generator(xml: doXML, numPLIs: int.parse(results.rest[0]), baseName: results.rest[1], timeout: int.parse(results.rest[2]), lat : double.parse(results.rest[3]), lon : double.parse(results.rest[4]), endpoint: results.rest[5], addr: results.rest[6], port: int.parse(results.rest[7]));
+      g.launchCOTs();
+      break;
+      case 7:
+      print('7 Arguments: Make ${results.rest[0]} CoTs, Base Name: ${results.rest[1]} Every ${results.rest[2]} seconds');
+      final g = Generator(xml: doXML, numPLIs: int.parse(results.rest[0]), baseName: results.rest[1], timeout: int.parse(results.rest[2]), lat : double.parse(results.rest[3]), lon : double.parse(results.rest[4]), endpoint: results.rest[5], addr: results.rest[6]);
+      g.launchCOTs();
+      break;
       case 6:
       print('6 Arguments: Make ${results.rest[0]} CoTs, Base Name: ${results.rest[1]} Every ${results.rest[2]} seconds');
       final g = Generator(xml: doXML, numPLIs: int.parse(results.rest[0]), baseName: results.rest[1], timeout: int.parse(results.rest[2]), lat : double.parse(results.rest[3]), lon : double.parse(results.rest[4]), endpoint: results.rest[5]);
