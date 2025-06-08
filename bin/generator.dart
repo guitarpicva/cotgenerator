@@ -88,24 +88,22 @@ List<String> groups = ["White", "Yellow", "Orange", "Magenta", "Red", "Maroon", 
 
   String makeXMLCoT(String uid, String dateTime, String group, {int seq = 1}) {
     /*
-<event version="2.0" 
-uid="mattermost-user-" 
-type="a-f-G-U-C" 
-time="2025-04-29T11:44:23.64Z" 
-start="2025-04-29T11:44:23.64Z" 
-stale="2025-04-29T11:47:53.64Z" 
-how="h-g" 
-access="Undefined">
+<event version="2.0" uid="ANDROID-67203c5be92eab85" type="a-f-G-U-C" time="2025-06-08T17:20:41.528Z" start="2025-06-08T17:20:41.528Z" stale="2025-06-08T17:22:26.528Z" how="h-g">
+<point lat="36.9509972" lon="-77.6722649" hae="45.3619270324707" ce="9999999.0" le="9999999.0"/>
+<detail>
+<contact callsign="MARMADUKE" endpoint="0.0.0.0:4242:tcp"/>
+<__gotenna messageForCallsign="MARMADUKE" messageForUUID="ANDROID-67203c5be92eab85"/>
+<__group name="Purple" role="Team Member"/>
+<uid Droid="MARMADUKE"/>
+</detail>
+</event>
 
-    <detail><contact callsign="ROVER" /><__gotenna messageForCallsign="ROVER" messageForUUID="mattermost-user-" /></detail>
-
-    <point lat="36.9515336" lon="-77.6736624" hae="49.7799835205078" ce="9999999" le="9999999" />
     */
     //print('Make and XML CoT: seq: $seq');    
     // make an xml string out of the CoT data
     //String out = '<?xml version="1.0" encoding="utf-8" ?>';
     // append the rest of the tags here and
-    final String faketakv = '<takv ';
+    // final String faketakv = '<takv ';
     final int ms = int.parse(dateTime);
     var builder = XmlBuilder();
     final double randy = Random.secure().nextInt(9) * 0.003; // int 0 -- 9
@@ -146,18 +144,18 @@ access="Undefined">
         builder.attribute('le', '9999999');
       });
       builder.element('detail', nest: () {
-        // builder.element('uid', nest:() {
-        //   builder.attribute('Droid', uid);
-        // });
-        builder.element('takv', nest: (){
-          builder.attribute('device', 'x');
-          builder.attribute('platform', 'ATAK');
-          builder.attribute('os', 'Android');
-          builder.attribute('version', '30');
+        builder.element('uid', nest:() {
+          builder.attribute('Droid', uid);
         });
+        // builder.element('takv', nest: (){
+        //   builder.attribute('device', 'x');
+        //   builder.attribute('platform', 'ATAK');
+        //   builder.attribute('os', 'Android');
+        //   builder.attribute('version', '30');
+        // });
         builder.element('contact', nest: (){
           builder.attribute('callsign', uid);       
-          builder.attribute('endpoint', '192.168.4.38:4242:tcp');   
+          builder.attribute('endpoint', '192.168.53.224:4242:tcp');   
         });
         builder.element('__group', nest: () {
           builder.attribute('role', role);
